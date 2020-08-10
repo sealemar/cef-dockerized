@@ -1,0 +1,19 @@
+# Usage:
+#
+# cef_arch=arm64 docker-compose build cef
+# cef_arch=x64 docker-compose build cef
+
+version: '3.8'
+
+services:
+    cef:
+        build:
+            context: ./cef
+            args:
+                arch: ${cef_arch:-arm64}
+        image: "cef:${cef_arch:?cef_arch [arm64,x64] docker-compose run ...}"
+        volumes:
+            - ./cef/script:/app/docker:ro
+            - ./cef/output:/host-mount
+        command: /bin/bash /app/docker/cmd.sh
+        container_name: cef-${cef_arch:-arm64}
