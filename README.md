@@ -9,8 +9,12 @@ This is a [docker](https://www.docker.com/) environment to build [CEF (Chromium 
 2. _(optional)_ [Install docker-compose](https://docs.docker.com/compose/install/)
 3. _(optional)_ [Manage Docker as a non-root user](https://docs.docker.com/engine/install/linux-postinstall/)
 
+Note: although, `docker-compose` is listed as optional above, but this file does not provide instructions for how to build CEF with docker engine only, thus docker-compose is recommended for simplicity.
+
 
 ## Run
+
+Note: older versions of docker engine and `docker-compose` may throw exceptions. See Troubleshooting section.
 
 To build for ARM64:
 
@@ -75,6 +79,16 @@ There are also all sorts of static libraries that are generated during a build
 $ find ~/tmp/cef-chromium_git-x64-2020.08.09T23:57:22/chromium_git/chromium/src/out/Release_GN_x64/cefsimple -name '*.a' | wc -l
 1269
 ```
+
+
+## Troubleshooting
+
+**Q:** `cef_arch=x64 docker-compose run --rm cef` raises the following error and does not build:
+```
+cef_arch=x64 docker-compose run --rm cefERROR: Invalid interpolation format for "image" option in service "cef": "cef:${cef_arch:?cef_arch [arm64,x64] docker-compose run ...}"
+```
+
+**A:** `docker-compose.yml` of this project uses `version: 3.8`, make sure your docker engine is of supported version `19.03.0+` and `docker-compose` is latest per <https://docs.docker.com/compose/compose-file/compose-versioning/>. The most recent version of `docker-compose` can be installed from here <https://docs.docker.com/compose/install/>.
 
 
 ## Refs
